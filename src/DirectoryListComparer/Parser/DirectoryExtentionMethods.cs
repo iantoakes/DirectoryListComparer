@@ -43,7 +43,7 @@ namespace DirectoryListComparer.Parser
         }
 
         /// <summary>
-        /// Contains the string "<DIR>"
+        /// Contains the string "&lt;DIR&gt;"
         /// </summary>
         public static bool IsSubDirectory(this string line)
         {
