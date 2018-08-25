@@ -9,8 +9,8 @@ namespace DirectoryListComparer
 {
     class Program
     {
-        private const string SourceFileSystem = @"C:\Shared\ftp files - AU.txt";
-        private const string DestinationFileSystem = @"C:\Shared\ftp files - nib.txt";
+        private const string SourceFileSystem = @"Data\ftp files - AU.txt";
+        private const string DestinationFileSystem = @"Data\ftp files - nib.txt";
         private static readonly Dictionary<string, DirectoryEntry> IndexedSourceDirectories = new Dictionary<string, DirectoryEntry>();
         private static readonly Dictionary<string, DirectoryEntry> IndexedDestinationDirectories = new Dictionary<string, DirectoryEntry>();
 
