@@ -1,3 +1,5 @@
+using System;
+
 namespace DirectoryListComparer.Parser
 {
     public static class DirectoryExtentionMethods
@@ -16,14 +18,6 @@ namespace DirectoryListComparer.Parser
         public static bool IsVolumeInDrive(this string line)
         {
             return line.Contains("Volume in drive");
-        }
-
-        /// <summary>
-        /// Contains a blank line
-        /// </summary>
-        public static bool IsBlank(this string line)
-        {
-            return string.IsNullOrWhiteSpace(line);
         }
 
         /// <summary>
@@ -72,6 +66,27 @@ namespace DirectoryListComparer.Parser
         public static bool IsFiles(this string line)
         {
             return line.Contains("File(s)");
+        }
+
+        /// <summary>
+        /// Contains a blank line
+        /// </summary>
+        public static bool IsBlank(this string line)
+        {
+            return String.IsNullOrWhiteSpace(line);
+        }
+
+        /// <summary>
+        /// Contains a line which the parser doesn't care about
+        /// </summary>
+        public static bool IsInsignificantLine(this string line)
+        {
+            return line.IsFiles() || 
+                   line.IsDirs() || 
+                   line.IsTotalFilesListed() || 
+                   line.IsVolumeInDrive() || 
+                   line.IsVolumeSerialNumber() || 
+                   line.IsBlank();
         }
     }
 }

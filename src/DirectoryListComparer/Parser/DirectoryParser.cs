@@ -15,22 +15,12 @@ namespace DirectoryListComparer.Parser
             string line = fileStream.ReadLine();
             if (line == null) throw new InvalidOperationException();
 
-            var directoryDictionary = new Dictionary<string, DirectoryEntry>();
+            var currentDirectory = GetRootDirectoryFromFile(fileStream);
+            var directoryDictionary = new Dictionary<string, DirectoryEntry> {{currentDirectory.Path, currentDirectory}};
 
-            while (line.IsDirectoryOf() == false)
-            {
-                if (!line.IsVolumeInDrive() && !line.IsVolumeSerialNumber() && !line.IsBlank()) continue;
-                line = fileStream.ReadLine();
-                if (line == null) throw new InvalidOperationException();
-            }
-
-            var currentDirectory = new DirectoryEntry(ParseDirectoryOf(line));
-            directoryDictionary[currentDirectory.Path] = currentDirectory;
-
-            line = fileStream.ReadLine();
             while (line != null)
             {
-                if (line.IsFiles() || line.IsDirs() || line.IsTotalFilesListed() || line.IsBlank())
+                if (line.IsInsignificantLine())
                 {
                     line = fileStream.ReadLine();
                     continue;
@@ -62,6 +52,19 @@ namespace DirectoryListComparer.Parser
 
             return directoryDictionary.First().Value;
         }
+
+        private static DirectoryEntry GetRootDirectoryFromFile(TextReader fileStream)
+        {
+            string line = fileStream.ReadLine();
+            while (line.IsDirectoryOf() == false)
+            {
+                line = fileStream.ReadLine();
+                if(line == null) throw new InvalidOperationException();
+            }
+
+            return new DirectoryEntry(ParseDirectoryOf(line));
+        }
+
 
         public static FileEntry PasrseFileEntry(string line)
         {
